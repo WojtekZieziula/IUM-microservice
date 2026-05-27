@@ -1,6 +1,6 @@
 # Dokumentacja techniczna mikroserwisu ML
 
-**Zespół:** Sakura
+**Zespół:** Sakura <br>
 **Projekt:** Sugerowanie cen noclegów dla nowo dodawanych lokali w Rzymie
 
 ## 1. Cel projektu
