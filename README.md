@@ -9,7 +9,7 @@ Głównym celem projektu jest wdrożenie mikroserwisu wspomagającego wycenę lo
 
 ## 2. Stos technologiczny
 
-Mikroserwis został zrealizowany w języku **Python (3.10+)** z użyciem frameworka **FastAPI** i serwera **Uvicorn**, którego asynchroniczna architektura pozwala na płynną obsługę wielu równoległych żądań od różnych użytkowników. Utrwalanie danych jest realizowane za pomocą plików w formacie `.jsonl`, całość została skonteneryzowana przy użyciu platformy **Docker**, co gwarantuje pełną izolację zależności i powtarzalne wdrożenie.
+Mikroserwis został zrealizowany w języku **Python (3.12+)** z użyciem frameworka **FastAPI** i serwera **Uvicorn**, którego asynchroniczna architektura pozwala na płynną obsługę wielu równoległych żądań od różnych użytkowników. Utrwalanie danych jest realizowane za pomocą plików w formacie `.jsonl`, całość została skonteneryzowana przy użyciu platformy **Docker**, co gwarantuje pełną izolację zależności i powtarzalne wdrożenie.
 
 ## 3. Działanie mikroserwisu
 
