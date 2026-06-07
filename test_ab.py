@@ -37,10 +37,12 @@ AMENITIES_POOL = [
 
 print(f"Starting simulation: {NUM_USERS} users x {REQUESTS_PER_USER} requests = {NUM_USERS * REQUESTS_PER_USER} total requests...")
 
-user_ips = [
-    f"{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(1, 255)}"
-    for _ in range(NUM_USERS)
-]
+user_ips = set()
+while len(user_ips) < NUM_USERS:
+    user_ips.add(
+        f"{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(1, 255)}"
+    )
+user_ips = list(user_ips)
 
 results_variant = []
 ip_to_variants = defaultdict(set)
