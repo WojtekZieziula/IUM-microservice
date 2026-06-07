@@ -138,12 +138,25 @@ curl -X POST -H "Content-Type: application/json" -d '{
 
 ## 6. Ewaluacja eksperymentu A/B
 
-Próg podziału ruchu konfigurowany jest w pliku `config.json` poprzez klucz `target_model_probability` (wartość 0-100 - procent ruchu kierowany do modelu docelowego).
+Skrypt `test_ab.py` symuluje ruch produkcyjny: generuje pulę unikalnych adresów IP i z każdego z nich wysyła serię zapytań do `/predict` ze zróżnicowanymi parametrami lokalu. Dodatkowo skrypt wykonuje sanity-check.
 
-Skrypt `test_ab.py` symuluje ruch produkcyjny: generuje pulę unikalnych użytkowników (adresów IP) i w imieniu każdego z nich wysyła serię zapytań do `/predict`, a następnie weryfikuje m.in. poprawność przydziału do wariantów (sticky assignment) oraz rozkład ruchu między grupami.
-
-Wygenerowane w ten sposób logi (`logs_ab_test.jsonl`) są analizowane w notatniku `ab_test_evaluation.ipynb`, który zawiera:
+Notatnik `ab_test_evaluation.ipynb` zawiera:
 - weryfikację rozkładu ruchu między wariantami,
-- analizę różnic w sugerowanych cenach wraz z testem istotności statystycznej (U Manna-Whitneya),
-- ocenę wydajności (latencji) i zgodności z SLA (≤ 500 ms zdefiniowane w ML Canvas),
-- weryfikację jakości randomizacji grup testowych (test chi-kwadrat).
+- ocenę wydajności generowania predykcji zgodnie z SLA (≤ 500 ms).
+
+## 7. Testy automatyczne
+
+Poprawność działania mikroserwisu jest dodatkowo sprawdzana za pomocą testów jednostkowych, które weryfikują m.in.:
+- walidację danych wejściowych (brak wymaganych pól skutkuje odpowiedzią `422`),
+- kompletność i poprawność struktury odpowiedzi zwracanej przez `/predict`,
+- determinizm przydziału do wariantu (ten sam adres IP zawsze trafia do tego samego wariantu),
+- zgodność przydziału z logiką haszowania MD5 opisaną w sekcji 3,
+- spójność wartości `current_prob_config` zwracanej w odpowiedzi z konfiguracją w `config.json`,
+- pokrycie obu wariantów przez pulę różnych adresów IP.
+
+W celu uruchomienia testów należy uruchomić poniższe komendy:
+
+```bash
+pip install -r tests/requirements-dev.txt
+pytest tests/ -v
+```
